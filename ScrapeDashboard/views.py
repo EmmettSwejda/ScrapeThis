@@ -3,10 +3,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from .forms import RegisterForm, MakeScrape
+from .models import ScrapeConfig
 
 
 def home(request):
-    return render(request, 'ScrapeDashboard/home.html')
+    scrapes = ScrapeConfig.objects.all().filter(owner=request.user)
+
+    return render(request, 'ScrapeDashboard/home.html', { "scrapes": scrapes })
 
 
 @login_required(login_url='login')

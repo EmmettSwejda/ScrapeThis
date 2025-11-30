@@ -1,8 +1,21 @@
 {% extends 'ScrapeDashboard/base.html' %}
 {% block title %}
-HomePage
+    HomePage
 {% endblock %}
 {% block content %}
-    <h1>This is the home page of the application</h1>
-
+    {% for post in scrapes %}
+        <div>
+            <h1>Title: {{ post.title }}</h1>
+            <p><strong>URL</strong>: {{ post.website_url }}</p>
+            <p><strong>Owner</strong>: {{ post.owner }}</p>
+            <p><strong>Notifications</strong>: {{ post.notifications }}</p>
+            <p><strong>Created</strong>: {{ post.created_at }}</p>
+        </div>
+    {% empty %}
+        {% if user.is_authenticated %}
+            <h1>Not tracking any sites? Start <a href="/make-scrape">Here</a></h1>
+        {% else %}
+            <h1>Don't have an account? Create one <a href="/sign-up">Here</a></h1>
+        {% endif %}
+    {% endfor %}
 {% endblock %}
