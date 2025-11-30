@@ -1,0 +1,12 @@
+{% extends 'ScrapeDashboard/base.html' %}
+
+{% block title  %}Login{% endblock %}
+
+{% block content %}
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <p>Don't have an account? Create one<a href="/sign-up">Here</a></p>
+    <button class="" type="submit">Submit</button>
+</form>
+{% endblock %}
