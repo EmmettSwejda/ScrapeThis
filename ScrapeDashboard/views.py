@@ -7,7 +7,16 @@ from .models import ScrapeConfig
 
 
 def home(request):
-    scrapes = ScrapeConfig.objects.all().filter(owner=request.user)
+    scrapes = None
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            id = request.POST.get('post-id')
+
+            post = ScrapeConfig.objects.filter(id=id).first()
+            if post.owner == request.user:
+                post.delete()
+        else:
+            scrapes = ScrapeConfig.objects.all().filter(owner=request.user)
 
     return render(request, 'ScrapeDashboard/home.html', { "scrapes": scrapes })
 

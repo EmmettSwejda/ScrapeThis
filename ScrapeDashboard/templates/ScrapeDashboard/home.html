@@ -10,6 +10,10 @@
             <p><strong>Owner</strong>: {{ post.owner }}</p>
             <p><strong>Notifications</strong>: {{ post.notifications }}</p>
             <p><strong>Created</strong>: {{ post.created_at }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger" name="post-id" value="{{ post.id }}">Delete Scrape?</button>
+            </form>
         </div>
     {% empty %}
         {% if user.is_authenticated %}
