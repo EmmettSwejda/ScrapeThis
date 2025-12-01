@@ -20,6 +20,22 @@ def home(request):
 
     return render(request, 'ScrapeDashboard/home.html', { "scrapes": scrapes })
 
+@login_required(login_url='login')
+def view_scrape(request, item_id):
+
+    if request.method == 'POST':
+        id = request.POST.get('post-id')
+
+        post = ScrapeConfig.objects.filter(id=id).first()
+        if post.owner == request.user:
+            post.delete()
+            return redirect('home')
+
+    scrape = ScrapeConfig.objects.filter(id=item_id).first()
+
+    return render(request, 'ScrapeDashboard/viewScrape.html', { "scrape": scrape })
+
+
 
 @login_required(login_url='login')
 def make_scrape(request):

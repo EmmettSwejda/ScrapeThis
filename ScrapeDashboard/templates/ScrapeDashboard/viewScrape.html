@@ -1,0 +1,22 @@
+{% extends 'ScrapeDashboard/base.html' %}
+
+{% block title %}
+    View Scrape
+{% endblock %}
+
+
+{% block content %}
+    <div style="background: indianred">
+
+        <h1>Title: {{ scrape.title }}</h1>
+        <p><strong>URL</strong>: {{ scrape.website_url }}</p>
+        <p><strong>Owner</strong>: {{ scrape.owner }}</p>
+        <p><strong>Notifications</strong>: {{ scrape.notifications }}</p>
+        <p><strong>Created</strong>: {{ scrape.created_at }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-danger" name="post-id" value="{{ scrape.id }}">Delete Scrape?
+            </button>
+        </form>
+    </div>
+{% endblock %}
