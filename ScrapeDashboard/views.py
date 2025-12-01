@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from .forms import RegisterForm, MakeScrape
 from .models import ScrapeConfig
-
-
+from bs4 import BeautifulSoup
+import requests
+from urllib.parse import urljoin
+import re
 def home(request):
     scrapes = None
     if request.user.is_authenticated:
@@ -22,7 +24,6 @@ def home(request):
 
 @login_required(login_url='login')
 def view_scrape(request, item_id):
-
     if request.method == 'POST':
         id = request.POST.get('post-id')
 
@@ -32,9 +33,41 @@ def view_scrape(request, item_id):
             return redirect('home')
 
     scrape = ScrapeConfig.objects.filter(id=item_id).first()
+    headers = {'Accept-Encoding': 'identity'}
+    page = requests.get(scrape.website_url, headers=headers).text
 
-    return render(request, 'ScrapeDashboard/viewScrape.html', { "scrape": scrape })
+    soup = BeautifulSoup(page, "html.parser")
 
+    css_links = [link["href"] for link in soup.find_all("link", rel="stylesheet")]
+    css_content = {}
+
+    for link in css_links:
+        css_url = urljoin(scrape.website_url, link)
+        css_data = requests.get(css_url).text
+        css_content = css_data
+
+
+    css_content = css_content.replace('body', '#showpage')
+    css_content = css_content.replace('html', '#showpage')
+
+    css_content = add_prefix_to_selectors(css_content, '#showpage ')
+
+    context = {
+        'scrape': scrape,
+        'page': page,
+        'css_content': css_content,
+    }
+    return render(request, 'ScrapeDashboard/viewScrape.html', context)
+
+
+
+def add_prefix_to_selectors(css, prefix):
+    def replacer(match):
+        selectors = match.group(2)
+        updated = ", ".join(prefix + s.strip() for s in selectors.split(","))
+        return f"{match.group(1)} {updated}"
+
+    return re.sub(r'(^|\})\s*([^{]+)', replacer, css)
 
 
 @login_required(login_url='login')

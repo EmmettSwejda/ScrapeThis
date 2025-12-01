@@ -6,17 +6,26 @@
 
 
 {% block content %}
-    <div style="background: indianred">
+    <div class="row align-items-start">
+        <div style="background: indianred" class="col">
 
-        <h1>Title: {{ scrape.title }}</h1>
-        <p><strong>URL</strong>: {{ scrape.website_url }}</p>
-        <p><strong>Owner</strong>: {{ scrape.owner }}</p>
-        <p><strong>Notifications</strong>: {{ scrape.notifications }}</p>
-        <p><strong>Created</strong>: {{ scrape.created_at }}</p>
-        <form method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn-danger" name="post-id" value="{{ scrape.id }}">Delete Scrape?
-            </button>
-        </form>
+            <h1>Title: {{ scrape.title }}</h1>
+            <p><strong>URL</strong>: {{ scrape.website_url }}</p>
+            <p><strong>Owner</strong>: {{ scrape.owner }}</p>
+            <p><strong>Notifications</strong>: {{ scrape.notifications }}</p>
+            <p><strong>Created</strong>: {{ scrape.created_at }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger" name="post-id" value="{{ scrape.id }}">Delete Scrape?
+                </button>
+            </form>
+        </div>
+
+        <div id="showpage" class="col">
+            <style>
+                {{ css_content }}
+            </style>
+            {{ page|safe }}
+        </div>
     </div>
 {% endblock %}
