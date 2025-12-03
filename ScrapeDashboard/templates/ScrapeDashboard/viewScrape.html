@@ -1,4 +1,9 @@
 {% extends 'ScrapeDashboard/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/ViewScrape.css' %}">
+{% endblock %}
 
 {% block title %}
     View Scrape
@@ -6,8 +11,18 @@
 
 
 {% block content %}
-    <div class="row align-items-start">
-        <div style="background: indianred" class="col">
+    <div class="side-bar" >
+        {% for item in scrapes %}
+            <a href="/view-scrape/{{ item.id }}">
+                <div class="side-item">
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.website_url }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <div>
+        <div style="background: indianred" class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
 
             <h1>Title: {{ scrape.title }}</h1>
             <p><strong>URL</strong>: {{ scrape.website_url }}</p>
@@ -21,7 +36,7 @@
             </form>
         </div>
 
-        <div id="showpage" class="col">
+        <div id="showpage" class="">
             <style>
                 {{ css_content }}
             </style>

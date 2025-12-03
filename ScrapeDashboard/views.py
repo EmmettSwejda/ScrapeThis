@@ -24,6 +24,7 @@ def home(request):
 
 @login_required(login_url='login')
 def view_scrape(request, item_id):
+    scrapes = ScrapeConfig.objects.all().filter(owner=request.user)
     if request.method == 'POST':
         id = request.POST.get('post-id')
 
@@ -46,16 +47,17 @@ def view_scrape(request, item_id):
         css_data = requests.get(css_url).text
         css_content = css_data
 
+    if css_content:
+        css_content = css_content.replace('body', '#showpage')
+        css_content = css_content.replace('html', '#showpage')
 
-    css_content = css_content.replace('body', '#showpage')
-    css_content = css_content.replace('html', '#showpage')
-
-    css_content = add_prefix_to_selectors(css_content, '#showpage ')
+        css_content = add_prefix_to_selectors(css_content, '#showpage ')
 
     context = {
         'scrape': scrape,
         'page': page,
         'css_content': css_content,
+        'scrapes': scrapes,
     }
     return render(request, 'ScrapeDashboard/viewScrape.html', context)
 
