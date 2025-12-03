@@ -1,0 +1,54 @@
+.content {
+    background-color: rgb(50, 50, 50);
+    display: grid;
+    grid-template-columns: 250px auto;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.side-item {
+    border-bottom: 1px solid white;
+    padding: 10px 0 10px 0;
+}
+
+.side-item:hover {
+    font-weight: bold;
+}
+
+.side-bar {
+    background-color: rgb(0, 0, 0);
+    height: inherit;
+    overflow: hidden;
+    border-right: 2px solid gray;
+}
+
+.page-view {
+    height: inherit;
+    overflow: scroll;
+}
+
+.highlight {
+    background-color: yellow;
+    outline: 2px solid orange;
+}
+
+#showpage {
+    background-color: white;
+    width: fit-content;
+    margin: auto;
+    border: 2px solid black;
+}
+
+#showpage a {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+body{
+    overflow: hidden;
+}

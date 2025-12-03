@@ -1,0 +1,49 @@
+{% extends 'ScrapeDashboard/base.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/viewScrape.css' %}">
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/hover.js' %}"></script>
+
+{% endblock %}
+
+{% block title %}
+    View Scrape
+{% endblock %}
+
+
+{% block content %}
+    <div class="side-bar" >
+        {% for item in scrapes %}
+            <a href="/view-scrape/{{ item.id }}">
+                <div class="side-item">
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.website_url }}</p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+    <div class="page-view">
+        <div style="background: indianred" class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white">
+
+            <h1>Title: {{ scrape.title }}</h1>
+            <p><strong>Notifications</strong>: {{ scrape.notifications }}</p>
+            <p><strong>Created</strong>: {{ scrape.created_at }}</p>
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn-danger" name="post-id" value="{{ scrape.id }}">Delete Scrape?
+                </button>
+            </form>
+        </div>
+
+        <div id="showpage" class="">
+            <style>
+                {{ css_content }}
+            </style>
+            {{ page|safe }}
+        </div>
+    </div>
+{% endblock %}

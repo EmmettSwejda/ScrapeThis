@@ -9,7 +9,7 @@ class MakeScrape(forms.ModelForm):
 
    class Meta:
        model =  ScrapeConfig
-       fields = '__all__'
+       fields = ('title', 'website_url', 'notifications')
 
 
 class RegisterForm(UserCreationForm):
