@@ -6,7 +6,7 @@ from .forms import RegisterForm, MakeScrape
 from .models import ScrapeConfig
 from bs4 import BeautifulSoup
 import requests
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 import re
 def home(request):
     scrapes = None
@@ -25,6 +25,10 @@ def home(request):
 @login_required(login_url='login')
 def view_scrape(request, item_id):
     scrapes = ScrapeConfig.objects.all().filter(owner=request.user)
+
+    for item in scrapes:
+        item.website_url = urlparse(item.website_url).netloc
+
     if request.method == 'POST':
         id = request.POST.get('post-id')
 
@@ -77,7 +81,9 @@ def make_scrape(request):
     if request.method == 'POST':
         form = MakeScrape(request.POST)
         if form.is_valid():
-            form.save()
+            sform = form.save(commit=False)
+            sform.owner = request.user
+            sform.save()
             return redirect('home')
     else:
         form = MakeScrape()
