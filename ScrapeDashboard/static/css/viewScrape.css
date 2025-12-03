@@ -2,12 +2,25 @@
     display: grid;
     grid-template-columns: 250px auto;
     overflow: hidden;
+    height: 100vh;
 }
-
 .side-item{
     border: 2px solid black;
     padding: 10px 0 10px 0;
 }
 .side-bar{
     background-color: rgb(75,75,75);
+    height: inherit;
+    overflow: hidden;
 }
+
+.page-view{
+    height: inherit;
+    overflow: scroll;
+}
+
+.highlight {
+  background-color: yellow;
+  outline: 2px solid orange;
+}
+

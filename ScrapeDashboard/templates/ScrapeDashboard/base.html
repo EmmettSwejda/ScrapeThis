@@ -11,36 +11,36 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <div>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="/home">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/make-scrape">Make Scrape</a>
-                </li>
-            </ul>
-        </div>
-        <div>
-            <ul class="navbar-nav">
-                {% if user.is_authenticated %}
-                    <span class="navbar-text">User: {{ user.username }} |</span>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div>
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Logout</a>
+                        <a class="nav-link" href="/home">Home</a>
                     </li>
-                {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/login">Login</a>
+                        <a class="nav-link" href="/make-scrape">Make Scrape</a>
                     </li>
-                {% endif %}
-            </ul>
+                </ul>
+            </div>
+            <div>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        <span class="navbar-text">User: {{ user.username }} |</span>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
-<div class="content">
-    {% block content %}{% endblock %}
+    </nav>
+    <div class="content">
+        {% block content %}{% endblock %}
 </div>
 </body>
 </html>
